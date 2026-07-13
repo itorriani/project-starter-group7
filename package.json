@@ -1,0 +1,20 @@
+{
+  "name": "poly-sheets",
+  "version": "1.0.0",
+  "description": "Team Project for CSC3001",
+  "keywords": [
+    "spreadsheet",
+    "collaborative",
+    "distributed"
+  ],
+  "license": "BSD-3-Clause",
+  "author": "kubiak@calpoly.edu",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "typescript": "^7.0.2"
+  }
+}

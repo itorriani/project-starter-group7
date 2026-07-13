@@ -1,0 +1,19 @@
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+
+th {
+    background-color: #ccc;
+}
+
+td {
+    font-family: 'Courier New', Courier, monospace;
+
+    > input {
+        font-family: inherit;
+        color: inherit;
+        border: none;
+    }
+}
