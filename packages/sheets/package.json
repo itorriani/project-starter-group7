@@ -11,28 +11,21 @@
   "author": "kubiak@calpoly.edu",
   "type": "module",
   "main": "src/index.ts",
-  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "nodemon",
-    "build": "rm -rf dist && npx tsc -b && echo Done!",
-    "start": "npm run build && node dist/index.js",
-    "start:web": "cross-env STATIC=../svelte-client/dist npm run start",
+    "build": "rm -rf dist && tsc -b && echo Done! ",
     "check": "tsc -noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@lit-labs/ssr": "^4.0.0",
     "@poly-sheets/types": "^1.0.0",
+    "csv-parser": "^3.2.1",
     "express": "^5.2.1",
-    "http": "^0.0.1-security",
-    "neat-csv": "^7.0.0",
-    "shared": "^1.0.0",
-    "uuid": "^14.0.0",
-    "ws": "^8.20.1"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
-    "@types/ws": "^8.18.1",
-    "cross-env": "^10.1.0",
     "nodemon": "^3.1.14",
     "typescript": "^6.0.3"
   }
