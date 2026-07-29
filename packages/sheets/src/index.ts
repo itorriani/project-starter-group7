@@ -1,28 +1,30 @@
 import express, { Request, Response } from "express";
+import fs from "node:fs/promises";
 import path from "node:path";
-import { renderToString } from "./render.ts";
 import { Sheet, WithId, newSheet } from "@poly-sheets/types";
 import { readCSV } from "./csv.ts";
-import { viewSheet } from "./viewSheet.ts";
-import sheetService from "./sheet-svc.ts";
-
+import sheetSVc from "./sheet-svc.ts";
 const port = process.env.PORT || 3000;
 const staticDir = process.env.STATIC || "public";
-const fileDir = path.join(staticDir, "files");
+const fileDir = process.env.DATA || "public/data-files";
 
 const app = express();
 app.use(express.static(staticDir));
+
+// TODO: [Assignment 2] have `app` `use` the router
+//       from `api.ts` to handle all requests which
+//       begin with `/api`
 
 app.get("/app", (req: Request, res: Response) => {
   const { file } = req.query;
 
   if (!file) {
     const sheet = newSheet(10, 50); // 10x50 sheet with no data
-    // TODO: call sheetService.create here and pass then
+    // TODO: [Assignment 1] call sheetSvc.create here and pass then
     //       result to redirectToSheet
   } else {
     readCSV(file as string, fileDir)
-      // TODO: save the sheet and redirect
+      // TODO: [Assignment 1] save the sheet and redirect
       .catch(handleError);
   }
 
@@ -36,16 +38,44 @@ app.get("/app", (req: Request, res: Response) => {
 });
 
 app.get("/app/:id", (req: Request, res: Response) => {
-  const { id } = req.params;
+  //        ==== Assignment 1 ===
+  // TODO: Declare the variable `id`. Initialize it to the
+  //       string which occurred in place of `:id` in the URL.
+  //
+  // const id = ...
 
-  const sheet: Sheet | undefined =
-    // TODO: get the sheet from the sheetService
+  // TODO: Declare the variable `sheet`.
+  //       This will contain the data from which we will
+  //       generate HTML. Use `sheetSvc` to find the value of `sheet`
+  //
+  // const sheet = ...
 
-  // TODO: check for sheet not found 
+  // TODO: Check for sheet not found, in
+  //       which case send the appropriate error status code
 
-  const promise = renderToString(viewSheet(sheet);
+  // TODO: Render the template with the sheet
+  //       data. This returns a promise, so you must use .then()
+  //       (or await) to access the actual HTML string. Once
+  //       the HTML is available, send it as the response.
+  //
+  // renderToString(viewSheet(sheet)
+  //    .then( ... )
 
-  // TODO: send the response HTML when the promise is resolved.
+  //       ==== Assignment 2 ====
+  //
+  // TODO: First, determine the absolute path
+  //       name of the static index.html file using Node's
+  //       `path` API like this: (just uncomment the line)
+  //
+  // const indexHtml = path.resolve(staticDir, "index.html");
+
+  // TODO: Now read the file. If it exists,
+  //       send it as the response. Otherwise, send an
+  //       appropriate error response
+  //
+  // fs.readFile( ... )
+  //    .then( ... )
+  //    .catch( ... )
 });
 
 // Start the server
