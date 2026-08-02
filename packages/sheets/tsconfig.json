@@ -3,6 +3,7 @@
     "types": ["node"],
     "declaration": true,
     "rootDir": "./src",
+    "sourceMap": true,
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
