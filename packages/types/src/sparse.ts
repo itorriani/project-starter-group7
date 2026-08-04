@@ -1,6 +1,6 @@
 import { AbsoluteReference }  from "./reference.ts";
 
-export type Sparse<T> = { [key: RCKey]: T };
+export type Sparse<T> = Record<RCKey, T>;
 
 export type RCKey = `R$${number}C$${number}`;
 
