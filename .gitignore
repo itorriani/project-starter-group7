@@ -50,6 +50,9 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
+# VS Code
+.vscode/
+
 # test data
 data-files/
 *.db
