@@ -1,6 +1,8 @@
 <script lang="ts">
-  import { defaultColumnName, newSheet } from "@poly-sheets/types";
-    import Cell from "./Cell.svelte";
+  import { newSheet } from "@poly-sheets/types";
+  import { wsHandleChange, wsSubscribeChanges } from "./ws-client.ts";
+  import { type Connection } from "./websocket.ts";
+
   let sheet = $state(newSheet(10, 50));
   let error = $state("");
   const ROW_CHUNK_SIZE = 50;
@@ -48,6 +50,18 @@
     //       query parameter to the `url`. Use the value of
     //       `ROW_CHUNK_SIZE` as the limit.
   })
+
+  // ======== Assignment 4 ========
+
+  let wsConnection: Connection | undefined;
+
+  // TODO: write an $effect() which calls wsSubscribeChanges.
+  //       Use the relevant state variables above as arguments,
+  //       so the effect is re-executed if any of them change.
+  //       The callback function you pass as the last argument
+  //       should set `wsConnection` above.
+
+
 </script>
 
 <main>
@@ -66,15 +80,17 @@
       </thead>
       <tbody onchange={ (event: Event) => {
         // TODO: handle change events by calling `handleChange`
-        //       (see the <script> at end of file)
-        //
+        //       (see the <script> at end of this file)
+
+        // TODO: [Assignment 4] replace the call to `handleChange`
+        //       with a call to wsHandleChange, imported from ws-client.ts
       }}>
         {#each sheet.cells as row, r}
           <tr>
             <th>{ `R$${r}` }</th>
-            {#each row as value, c}
+            {#each row as _, c}
               <td>
-                <input value={ value } name={ `R$${r}C$${c}` } />
+                <input value={ sheet.cells[r][c] } name={ `R$${r}C$${c}` } />
               </td>
             {/each}
           </tr>
@@ -200,8 +216,6 @@
     //
     // const patch: Sparse<Value> = ...;
 
-    input.classList.toggle("pending", true);
-
     return fetch(url, {
       // TODO: build the options for the request. Fill in the
       //       following:
@@ -214,7 +228,6 @@
     }).then((res) => {
       // TODO: check status, return JSON if ok, else throw
     }).then((json: unknown) => {
-      input.classList.toggle("pending", false);
       // TODO: update the value of the one cell in sheet.cells
     }).catch((err) => {
       // TODO: if the request failed, we want to remove
