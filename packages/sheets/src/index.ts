@@ -3,7 +3,17 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { Sheet, WithId, newSheet } from "@poly-sheets/types";
 import { readCSV } from "./csv.ts";
-import sheetSVc from "./sheet-svc.ts";
+import sheetSvc from "./sheet-svc.ts";
+
+// TODO: [Assignment 2] add this import:
+//
+//   import apiRouter from "./api.ts"
+
+// TODO: [Assignment 4] add these imports:
+//
+//   import websockets from "./websockets.ts"
+//   import wsHandler from "./wsapi.ts";
+
 const port = process.env.PORT || 3000;
 const staticDir = process.env.STATIC || "public";
 const fileDir = process.env.DATA || "public/data-files";
@@ -62,14 +72,14 @@ app.get("/app/:id", (req: Request, res: Response) => {
   //    .then( ... )
 
   //       ==== Assignment 2 ====
-  //
-  // TODO: First, determine the absolute path
-  //       name of the static index.html file using Node's
+
+  // TODO: First, determine the absolute path name
+  //        of the static index.html file using Node's
   //       `path` API like this: (just uncomment the line)
   //
   // const indexHtml = path.resolve(staticDir, "index.html");
 
-  // TODO: Now read the file. If it exists,
+  // TODO: [Assignment 2] Now read the file. If it exists,
   //       send it as the response. Otherwise, send an
   //       appropriate error response
   //
@@ -79,6 +89,15 @@ app.get("/app/:id", (req: Request, res: Response) => {
 });
 
 // Start the server
+
+// TODO: [Assignment 4] Save the return value of `app.listen`
+//   in a variable called `server`. You will need this to
+//   set up websockets, below
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+// TODO: [Assignment 4] Enable websockets on the HTTP server
+//    by calling `websockets`, passing it `server` (defined
+//    above) and the `wsHandler` function.
