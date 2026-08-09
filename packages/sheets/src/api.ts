@@ -1,10 +1,11 @@
 import express, { Request, Response, Router } from "express";
+import { SheetService }  from "sheet-svc";
 import { Sparse, Value } from "@poly-sheets/types";
-import sheetSvc from "./sheet-svc.ts";
+function createRouter(svc: SheetService) {
 
 const router = Router();
 
-router.use(express.json({type: ['application/*+json', 'application/json']}))
+  router.use(express.json({ type: ['application/*+json', 'application/json'] }));
 
 router.get("/sheets/:id", (req: Request, res: Response) => {
   // TODO: declare the variable `id`. Initialize it to the
@@ -74,4 +75,7 @@ router.patch("/sheets/:id/cells", (req: Request, res: Response) => {
   //       `result` object as JSON in the body of the reponse
 });
 
-export default router;
+  return router;
+}
+
+export default createRouter;

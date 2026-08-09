@@ -1,4 +1,4 @@
-import { Value } from "./value.ts";
+import { IntrinsicValue, Value } from "./value.ts";
 
 export interface Sheet {
   name: string;
@@ -18,7 +18,7 @@ export function newSheet(
 ): Sheet {
   const columns = Array.from({ length: ncolumns }, (_, i) => defaultColumnName(i));
   const cells = Array.from({ length: nrows }, () =>
-    Array.from({ length: ncolumns }, () => null)
+    Array.from({ length: ncolumns }, () => new IntrinsicValue() )
   );
 
   return {name, columns, nrows, cells };

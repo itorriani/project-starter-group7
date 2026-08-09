@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Poly-Sheets</title>
+    <style>
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      flex-basis: min-content
+    }
+    main {
+      flex-basis: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+    }
+    section {
+      width: 20em;
+      border: 1px solid grey;
+      border-radius: 1em;
+      padding: 1em;
+
+      h2 {
+        margin: 0 auto;
+      }
+
+      h2 + * {
+        margin-top: 1em;
+      }
+    }
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5em;
+
+      label {
+        display: contents;
+      }
+
+      input[type="submit"] {
+        grid-column: 1/-1;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Poly-Sheets</h1>
+    </header>
+    <main>
+      <section>
+        <h2>New Blank Sheet</h2>
+        <form
+          action="/app"
+          method="POST">
+            <label>
+              <span>Sheet Name:</span>
+              <input name="sheetName" placeholder="Unnamed sheet"/>
+            </label>
+            <label>
+              <span>Rows:</span>
+              <input name="nrows" type="number" value="50"/>
+            </label>
+            <label>
+              <span>Columns:</span>
+              <input name="ncols" type="number" value="10"/>
+            </label>
+            <input type="submit" value="Create"/>
+          </form>
+      </section>
+      <section>
+        <h2>New from Template</h2>
+        <form
+          action="/app"
+          method="POST">
+            <label>
+              <span>Sheet Name:</span>
+              <input name="sheetName" placeholder="Unnamed sheet"/>
+            </label>
+            <label>
+              <span>Template</span>
+              <select name="template">
+                <option value="gnarly.csv">Gnarly Test</option>
+                <option value="imdb-top-rated-movies-user-rated.csv">Movies</option>
+                <option selected value="test.csv">Test</option>
+              </select>
+            </label>
+            <input type="submit" value="Create"/>
+      </section>
+    </main>
+  </body>
+</html>

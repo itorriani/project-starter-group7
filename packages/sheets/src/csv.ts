@@ -1,4 +1,4 @@
-import { Sheet, Value, newSheet } from "@poly-sheets/types";
+import { IntrinsicValue, Sheet, Value, newSheet } from "@poly-sheets/types";
 import fs from "node:fs/promises";
 import path from "node:path";
 import parseCSV from "neat-csv";
@@ -26,11 +26,13 @@ export function readCSV(
     headers.forEach((col, i) => lookupColumn[col] = i);
   }
 
-  function insertData(data: object) {
+  function insertData(data: Record<string, string | number | null>) {
     if (sheet.nrows === 0 && typeof headers === "undefined")
       setColumns(Object.keys(data));
 
-    const row: Array<Value> = Array.from(sheet.columns, () => null );
+    const row: Array<Value> = Array.from(
+      sheet.columns,
+      () => new IntrinsicValue());
 
     Object.entries(data).forEach(([column, s]) => {
       const n = parseFloat(s);

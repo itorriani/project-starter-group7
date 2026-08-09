@@ -2,20 +2,48 @@ import type {
   AbsoluteReference,
   ClientMessage,
   RCKey,
+  SerializedValue,
   ServerMessage,
   Sheet,
   Sparse,
-  Value
 } from "@poly-sheets/types";
+import { IntrinsicValue, PendingValue, Value } from "@poly-sheets/types";
 import { parseKey } from "@poly-sheets/types";
 import { type Connection, createConnection, sendMessage } from "./websocket.ts";
 
+type OnChangeHandler = (ref: AbsoluteReference, value: Value) => void
+
+export function wsHandleChange(
+  event: Event,
+  connection: Connection,
+  onChange: OnChangeHandler
+) {
+  // TODO: use the same code as in `handleChange` for all of these:
+  //
+  // const input = ...
+  // const value = ...
+  // const key = ...
+  // const ref = ...
+  // const patch: Sparse<Value> = ...;
+
+  // TODO: set the modified cell's value to a PendingValue,
+  //       using the `onChange` callback.
+
+  // TODO: compose a `PATCH_CELL_DATA` message to send
+  //       to the server:
+  //
+  // const message: ClientMessage = ...
+
+  // TODO: send the message using sendMessage()
+}
+
+
 export function wsSubscribeChanges(
   sheetId: string,
-  sheet: Sheet,
   nrows: number,
   ws: Connection | undefined,
-  setConnection: (ws: Connection) => void
+  onConnect: (ws: Connection) => void,
+  onChange: OnChangeHandler
 ) {
   // TODO: compose a `SUBSCRIBE_ROWS` message to send
   //       to the server:
@@ -26,11 +54,7 @@ export function wsSubscribeChanges(
     if (ws?.channel !== sheetId) {
       createConnection<ServerMessage>(
         sheetId,
-        // TODO: write a function that will handle any message
-        //       we expect to receive on this connection. Hint:
-        //       there is a function defined below that you can
-        //       use
-        (msg: ServerMessage) => { /* your code here */ }
+        (msg: ServerMessage) => wsHandleMessage(msg, onChange)
       ).then((conn) => {
         // TODO: use the `sendMessage` function (imported above)
         //       to send the `message` on the connection `ws
@@ -45,55 +69,26 @@ export function wsSubscribeChanges(
   }
 }
 
-export function wsHandleChange(
-  event: Event,
-  sheetId: string,
-  sheet: Sheet,
-  connection: Connection
-) {
-  // TODO: use the same code as in `handleChange`
-  //
-  // const input = ...
 
-  // TODO: use the same code as in `handleChange`
-  //
-  //  const value = ...
 
-  // TODO: use the same code as in `handleChange`
-  //
-  // const patch: Sparse<Value> = ...;
-
-  // TODO: compose a `PATCH_CELL_DATA` message to send
-  //       to the server:
-  //
-  // const message: ClientMessage = ...
-
-  // TODO: send the message using sendMessage()
-}
-
-function wsHandleMessage(msg: ServerMessage, sheet: Sheet) {
+function wsHandleMessage(msg: ServerMessage, onChange: OnChangeHandler ) {
   switch (msg[0]) {
     case "UPDATE_VALUES": {
-      const patch: Sparse<Value> = msg[1];
+      const patch = msg[1];
 
       // Record types are easier to handle
       // as an array of entries. So we start by getting
       // the entries in the patch object
-      const entries: [RCKey, Value][] =
-        Object.entries(patch) as [RCKey, Value][];
+      const entries = Object.entries(patch) as [RCKey, SerializedValue][];
 
-      const triples: [number, number, Value][] = entries.map(
-        // TODO: For each entry, replace the key with the `row`
-        //       and `column` (both numbers) encoded in the key.
-        //       (Hint: don't parse the key yourself; use `parseKey`
-        //       from the library.) Rewrite the following
-        //       function:
-        (entry) => [0 /* row */, 0 /* column */, null /* value */]
-      );
+      entries.forEach(([key, value]) => {
+        // TODO: Convert the key to a reference
+        //
+        // const ref: AbsoluteReference = ...
 
-      triples.forEach(([row, column, value]) => {
-        // TODO: set the corresponding entry in sheet.cells
+        // TODO: Use `onChange` to make the change to the sheet
       });
+
       break;
     }
     default:
