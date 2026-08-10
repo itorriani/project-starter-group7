@@ -16,8 +16,9 @@ import { readCSV } from "./csv.ts";
 
 const port = process.env.PORT || 3000;
 const useSPA = !!process.env.STATIC;
-const staticDir = process.env.STATIC || "public";
-const templateDir = process.env.TEMPLATES || "public/templates";
+const publicDir = path.resolve("public");
+const staticDir = path.resolve(process.env.STATIC || "public");
+const templateDir = path.resolve(process.env.TEMPLATES || "public/templates");
 
 const app = express();
 const sheetService = new InMemorySheetService();
@@ -40,16 +41,13 @@ app.use(express.urlencoded()); // for parsing application/x-www-form-urlencoded
 if (useSPA) {
   // Explicitly send public/index.html for /, regardless of STATIC value
   app.get("/", (req: Request, res: Response) => {
-    const indexHtml = path.resolve("public", "index.html");
-
-    fs.readFile(indexHtml, { encoding: "utf8" })
-      .then((html) => res.send(html));
+    res.sendFile("index.html", {root: publicDir});
   });
 
   // Send index.html in STATIC directory for any route starting with /app
   app.get(/\/app(.*)/, (req: Request, res: Response) => {
     // TODO: [Assignment 2] Complete this endpoint, following the
-    //       example above, except use `staticDir` in place of "public"
+    //       example above, except use `staticDir` in place of `publicDir`
   });
 }
 
