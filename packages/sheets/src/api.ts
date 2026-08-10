@@ -1,10 +1,9 @@
 import express, { Request, Response, Router } from "express";
 import { SheetService }  from "sheet-svc";
 import { Sparse, Value } from "@poly-sheets/types";
-
 function createRouter(svc: SheetService) {
 
-  const router = Router();
+const router = Router();
 
   router.use(express.json({ type: ['application/*+json', 'application/json'] }));
 

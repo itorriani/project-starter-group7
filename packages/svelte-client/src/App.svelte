@@ -36,12 +36,35 @@
     // TODO: Use fetch() to make the request. That
     //       returns a Promise<Response> so you will
     //       need to use .then() (or await) to access
-    //       the Response object. The response's body
-    //       will contain a JSON-encoded Sheet object,
-    //       which should be assigned to `sheet` (see above).
+    //       the Response object.
     //
     // fetch(url)
-    //   .then( ... )
+    //   .then((res: Response) => {
+
+    // TODO: Check the status and if it's good, return
+    //       the body `res.json()`.
+
+    //   })
+    //   .then((json: unknown) => {
+
+    // TODO: Construct a Sheet from the JSON body.  Because
+    //       class instances cannot be transferred over JSON,
+    //       you need to convert all the cell data into Value
+    //       objects. You may use the function `convertCellValues`
+    //       (defined in the <script> below)
+    //
+    //     const { cells } = json as { cells: SerializedValue[][] };
+    //     const cellValues = convertCellValues(cells);
+
+    // TODO: Create a new sheet from `json`, replacing `cells`
+    //       with `cellValues`. Assign the replace
+    //       to the $state variable `sheet`
+    //
+    //     sheet = ... // new sheet with converted cells
+    //   })
+    //   .catch((err: Error) => {
+    //      error = err.message;
+    //    });)
     //   ...
 
     // ======== Assignment 3 ========
@@ -58,8 +81,9 @@
   // TODO: write an $effect() which calls wsSubscribeChanges.
   //       Use the relevant state variables above as arguments,
   //       so the effect is re-executed if any of them change.
-  //       The callback function you pass as the last argument
-  //       should set `wsConnection` above.
+  //       You will need two callback functions: the first,
+  //       should set `wsConnection` above; the second should
+  //       modify the referenced cell in `sheet.cells`
 
 
 </script>
@@ -82,15 +106,22 @@
         // TODO: handle change events by calling `handleChange`
         //       (see the <script> at end of this file)
 
-        // TODO: [Assignment 4] replace the call to `handleChange`
-        //       with a call to wsHandleChange, imported from ws-client.ts
+        // TODO: [Assignment 4] if wsConnection is set, call `wshandleChange`
+        //       instead of handleChange
       }}>
         {#each sheet.cells as row, r}
           <tr>
             <th>{ `R$${r}` }</th>
             {#each row as _, c}
               <td>
-                <input value={ sheet.cells[r][c] } name={ `R$${r}C$${c}` } />
+                sheet.cells[r][c].isUnstable() ? "pending" :
+                sheet.cells[r][c].isError() ? "error" : ""
+               }>
+                <input
+                  value={ sheet.cells[r][c].toString() }
+                  name={ `R$${r}C$${c}` }
+                  disabled={sheet.cells[r][c].isUnstable()}
+                  />
               </td>
             {/each}
           </tr>
@@ -132,18 +163,26 @@
     MoreRows,
     RCKey,
     Sheet,
-    Sparse,
-    Value
+    Sparse
   } from "@poly-sheets/types";
-  import { parseKey } from "@poly-sheets/types";
+  import { parseKey, PendingValue } from "@poly-sheets/types";
 
-  // ======== Assignment 3 ========
+  // Converts rows of values that were sent as JSON
+  // into instances of class Value, which is how we store
+  // values in memory
+  function convertCellValues(cells: SerializedValue[][]): Value[][] {
+    return cells.map(
+      (row) => row.map(
+        (v) => Value.fromJSON(v)
+      ));
+  }
 
   function loadMoreRows(
     sheetId: string,
     sheet: Sheet,
     maxRows: number
   ): Promise<MoreRows> {
+    // ======== Assignment 3 ========
 
     // TODO: compute the path portion and query parameters
     //       of the URL here, and replace the empty strings
@@ -160,11 +199,11 @@
         //       return the body as a JSON object
       })
       .then((json: unknown) => {
-        const { rows, count } = json as MoreRows;
-        // TODO: add the rows to the end of the
-        //       sheet's cells. It's fine (and in fact
-        //       preferable) if you mutate the cells array
-        return json as MoreRows;
+        const { rows, count } = json as {count: number, rows: SerializedValue[][]};
+        // TODO: add the rows to the end of the sheet's cells.
+        //       It's fine (and in fact preferable) if you
+        //       mutate the cells array. As with the $effect you
+        //      wrote above, be sure to convert the row data to Values.
       });
   }
 
@@ -190,10 +229,8 @@
     //       This is trickier than it sounds. `input.value` will
     //       contain the value as a string. But if the user enters
     //       a number, we want to convert it to a number. Hint:
-    //       calling `parseFloat` on a string will return a number.
-    //       If the conversion failed, the special value `NaN` is
-    //       returned. You can check if a number is `NaN` with
-    //       `isNan(n)`.
+    //       the static method Value.fromUserInput can handle
+    //       this conversion for you
     //
     //  const value = ...
 
@@ -204,17 +241,31 @@
     //
     // const key = /* get name from input */ as RCKey;
 
-    // TODO: Define `ref`, which gives us the row and column
-    //       of the cell. We will need this when we update
-    //       the local state.
+    // TODO: compute `ref` from the `key`. An AbsoluteReference
+    //       gives us the row and column of the cell.
+    //       We will need this when we update the local state.
+    //       Hint: look at the `parseKey()` function imported above
     //
-    // const ref: AbsoluteReference = parseKey(key);
+    // const ref: AbsoluteReference = ...
+
+    // TODO: Save the old value of the cell referenced by `ref`.
+    //       We will need this in case the patch fails on the
+    //       server.
+    //
+    // const oldValue: Value = ...
 
     // TODO: Build the `Sparse<Value>` object, which we
     //       will send as the body of our request. It will have
     //       just one entry, mapping `key`: `value`.
     //
     // const patch: Sparse<Value> = ...;
+
+    // TODO: Let the user know that their change is pending
+    //       communication with the server. Do this by creating
+    //       a `PendingValue` from `value` and assigning the cell
+    //       referenced by `ref` in `sheet.cells`
+    //
+    // ...
 
     return fetch(url, {
       // TODO: build the options for the request. Fill in the
@@ -229,13 +280,14 @@
       // TODO: check status, return JSON if ok, else throw
     }).then((json: unknown) => {
       // TODO: update the value of the one cell in sheet.cells
+      //
+      // ...
     }).catch((err) => {
       // TODO: if the request failed, we want to remove
       //       the value which the user entered, and restore
-      //       the old value, which is still in sheet.cells
+      //       `input.value` from `oldValue`
       //
-      // const oldValue = ...;
-      // input.value = oldValue === null ? "" : oldValue.toString();
+      // ...
       throw err;
     })
   }

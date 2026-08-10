@@ -2,22 +2,22 @@
   "name": "svelte-client",
   "private": true,
   "version": "0.0.0",
+  "main": "src/main.ts",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "rm -rf dist && vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
+    "check": "svelte-check"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "@poly-sheets/types": "^1.0.0",
+    "@sveltejs/vite-plugin-svelte": "^7.2.0",
     "@tsconfig/svelte": "^5.0.8",
     "@types/node": "^24.13.2",
     "svelte": "^5.56.4",
     "svelte-check": "^4.7.1",
+    "svelte-preprocess": "^6.0.5",
     "vite": "^8.1.1"
-  },
-  "dependencies": {
-    "@poly-sheets/types": "^1.0.0"
   }
 }

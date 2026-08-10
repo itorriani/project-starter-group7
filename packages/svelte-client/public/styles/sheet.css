@@ -67,6 +67,14 @@ table {
         text-align: right;
       }
 
+      &.pending {
+        background-color: rgb(200 250 150);
+      }
+
+      &.error {
+        background-color: rgb(250 150 150);
+      }
+
       > input, > output {
         display: block;
         text-align: inherit;
@@ -100,4 +108,19 @@ table.sticky {
       left: 0;
       z-index: 1;
   }
+}
+
+.toast {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 10px;
+  background-color: rgb(250 200 200);
+  color: rgb(160 0 0);
+  border-radius: 20px;
+  border: 1px solid;
+  text-align: center;
+  max-width: 60%;
+  max-height: 40%;
+  overflow: auto;
 }
