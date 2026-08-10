@@ -76,15 +76,16 @@ app.post("/app", (req: Request, res: Response) => {
         // TODO: [Assignment 1] save the sheet and redirect,
         //       as you did above
       })
-      .catch(handleError);
+      .catch((err: Error) => {
+        // TODO: [Assignment 1] an error occurred. Respond
+        //       with an HTTP error status. You may assume
+        //       the only possible error is that the file
+        //       was not found.
+      });
   }
 
   function redirectToSheet(sheet: WithId<Sheet>) {
     res.redirect(`/app/${sheet.id}`)
-  }
-
-  function handleError(err: unknown) {
-    res.status(500).send(`Error reading CSV: ${err}`)
   }
 });
 

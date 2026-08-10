@@ -28,8 +28,7 @@ export class InMemorySheetService implements SheetService {
     // TODO: add the `stored` object to the `storedSheets`
     //       map with key `id`. Then return `stored`
 
-    // TODO: remove the following line when done:
-    return { ...newSheet(10, 10), id: "not a sheet" };
+    return stored;
   }
 
   getSheetById(
