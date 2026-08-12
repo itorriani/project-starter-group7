@@ -43,14 +43,6 @@ export class InMemorySheetService implements SheetService {
 
     // ======== Assignment 3 =========
 
-    // TODO: Add an optional second parameter `limit` of type `number`
-    //       to this function's signature.
-
-    // TODO: Replace the `return` statement with this variable
-    //       declaration:
-    //
-    // const fullSheet = ... (the value that you had returned)
-
 
     // TODO: Implement the following logic:
     //    1. if the sheet was not found or `limit` is undefined,
