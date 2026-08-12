@@ -13,12 +13,19 @@ function createServer(svc: SheetService) {
       case "PATCH_CELL_DATA": {
         const patch = fromSerializedValues(msg[1]);
 
-        const success = svc.updateSheetValues(sheetId, patch);
+        // TODO: call the `patch` function in `sheetSvc`
+        //       and save the result as `success`
+        //
+        const success = false; // <-- replace with your code
+
         if (success) {
-          sendMessage<ServerMessage>(
-            ["UPDATE_VALUES", toSerializedValues(success)],
-            source,
-            ...peers);
+          const patch = toSerializedValues(success);
+
+          // TODO: compose an `UPDATE_VALUES` message, using
+          //       `patch` as the payload object
+          const message = []; // <- replace [] with your code
+
+          sendMessage<ServerMessage>(message, source, ...peers);
         }
         break;
       }
