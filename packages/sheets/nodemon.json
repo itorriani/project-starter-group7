@@ -5,6 +5,7 @@
   "exec": "npx tsc && node ./dist/index.js",
   "env": {
     "DEBUG": "express/*"
+    "STATIC": "../svelte-client/dist"
   },
   "legacyWatch": true
 }

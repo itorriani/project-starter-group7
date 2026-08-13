@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import path from "node:path";
 import fs from "node:fs/promises";
 import { Sheet, WithId, newSheet } from "@poly-sheets/types";
+// TODO: [Assignment 5] replace the following with
+//       SQLiteSheetService
 import { InMemorySheetService } from "sheet-svc";
 import { readCSV } from "./csv.ts";
 
@@ -21,6 +23,8 @@ const staticDir = path.resolve(process.env.STATIC || "public");
 const templateDir = path.resolve(process.env.TEMPLATES || "public/templates");
 
 const app = express();
+// TODO: [Assignment 5] replace the following with
+//       SQLiteSheetService
 const sheetService = new InMemorySheetService();
 
 app.use(express.static(
