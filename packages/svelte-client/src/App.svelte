@@ -2,6 +2,7 @@
   import { newSheet } from "@poly-sheets/types";
   import { wsHandleChange, wsSubscribeChanges } from "./ws-client.ts";
   import { type Connection } from "./websocket.ts";
+  import Cell from "./Cell.svelte";
 
   let sheet = $state(newSheet(10, 50));
   let error = $state("");
@@ -74,9 +75,9 @@
     //       `ROW_CHUNK_SIZE` as the limit.
   })
 
-  // ======== Assignment 4 ========
-
   let wsConnection: Connection | undefined;
+
+  // ======== Assignment 4 ========
 
   // TODO: write an $effect() which calls wsSubscribeChanges.
   //       Use the relevant state variables above as arguments,
@@ -96,36 +97,41 @@
     <table class="sticky">
       <thead>
         <tr>
-          <th class="origin"></th>
-          {#each sheet.columns as name, c}
-            <th>{ `C$${c}` }<br>{ name }</th>
-          {/each}
+          <th></th>
+          <!--
+            TODO: Use a Svelte {#each} block to generate
+                  a <th> for every column. Put the column's
+                  *number* inside the <th>.
+           -->
+        </tr>
+        <tr>
+          <th></th>
+          <!--
+            TODO: Use a Svelte {#each} block to generate
+                  a <th> for every column. Put the column's
+                  *name* inside the <th>.
+           -->
         </tr>
       </thead>
       <tbody onchange={ (event: Event) => {
-        // TODO: handle change events by calling `handleChange`
+        // TODO: [Assignment 3] handle change events by calling `handleChange`
         //       (see the <script> at end of this file)
 
         // TODO: [Assignment 4] if wsConnection is set, call `wshandleChange`
         //       instead of handleChange
       }}>
-        {#each sheet.cells as row, r}
-          <tr>
-            <th>{ `R$${r}` }</th>
-            {#each row as _, c}
-              <td>
-                sheet.cells[r][c].isUnstable() ? "pending" :
-                sheet.cells[r][c].isError() ? "error" : ""
-               }>
-                <input
-                  value={ sheet.cells[r][c].toString() }
-                  name={ `R$${r}C$${c}` }
-                  disabled={sheet.cells[r][c].isUnstable()}
+        <!--
+          TODO: [Assignment 2] Use nested {#each} blocks to
+                generates the rows of data. Start each row
+                with a <th> that contains the row number.
+
+                For each cell in a row, DO NOT generate a <td>.
+                Instead, call the Cell component like this:
+
+                <Cell row={r} column={c}
+                  value={sheet.cells[r][c]}
                   />
-              </td>
-            {/each}
-          </tr>
-        {/each}
+        -->
       </tbody>
     </table>
     {#if error}

@@ -65,8 +65,10 @@ function createRouter(svc: SheetService) {
       //
       // const id = ...
 
-      // TODO: Call the `patch` service method, passing it the
-      //       sparse data that was in the body of the Request.
+    // TODO: Call the `updateSheetValues` service method
+    //       passing it the sparse data that was in the
+    //       body of the Request. You will need to convert
+    //       any SerializedValues (in JSON) into Values (in memory).
       //       Save the result so we can check it later.
       //
       // const result = ...
