@@ -169,7 +169,7 @@ export class SQLiteSheetService implements SheetService {
     const { rows } = this.getCellsInRange(id, 0, maxRows) || {};
 
     return {
-      ...sheet,
+      ...( sheet as Sheet ),
       columns: columns.map((c: {name: string}) => c.name),
       cells: rows || []
     }
@@ -196,8 +196,8 @@ export class SQLiteSheetService implements SheetService {
       { ncolumns: 0 }; // <- replace with your code
 
     const end = typeof maxRows === "undefined"
-      ? sheet.nrows
-      : Math.min(sheet.nrows, startRow + maxRows)
+      ? ( sheet as Sheet ).nrows
+      : Math.min( ( sheet as Sheet ).nrows, startRow + maxRows)
     const rows: Value[][] = Array.from(
       { length: end - startRow },
       () => Array.from({ length: ncolumns }, () => new IntrinsicValue())
@@ -206,7 +206,7 @@ export class SQLiteSheetService implements SheetService {
     // TODO: get all the values from `startRow` up to
     //       (but not including) `end`. Use the `selectValues`
     //       query you prepared above
-    const values =
+    const values : any[] = 
       [];  // <- replace with your code
 
     values.forEach(({ row, column, strval, numval }) => {
@@ -227,7 +227,7 @@ export class SQLiteSheetService implements SheetService {
   ): Sparse<Value> | undefined {
     Object.entries(patch).forEach(([key, value]) => {
       const ref = parseKey(key as RCKey);
-      const strval = !value.isNumber() ? value.toString() : null,
+      const strval = !value.isNumber() ? value.toString() : null;
       const numval = value.isNumber() ? value.toNumber() : null;
 
       // TODO: run the `updateValue` prepared stmt
