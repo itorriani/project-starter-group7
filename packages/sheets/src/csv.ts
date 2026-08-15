@@ -1,4 +1,4 @@
-import { IntrinsicValue, Sheet, Value, newSheet } from "@poly-sheets/types";
+import { IntrinsicValue, PrimitiveType, Sheet, Value, newSheet } from "@poly-sheets/types";
 import fs from "node:fs/promises";
 import path from "node:path";
 import parseCSV from "neat-csv";
@@ -35,8 +35,14 @@ export function readCSV(
       () => new IntrinsicValue());
 
     Object.entries(data).forEach(([column, s]) => {
-      const n = parseFloat(s);
-      const value: Value = isNaN(n) ? s : n;
+      let primitive : PrimitiveType = s;
+      if( typeof s === "string" ) {
+        const parsed : number = parseFloat(s);
+        if( !Number.isNaN( parsed ) ) {
+          primitive = parsed;
+        }
+      }
+      const value: Value = new IntrinsicValue( primitive );
 
       row[lookupColumn[column]] = value;
     })

@@ -106,10 +106,8 @@ app.get("/app/:id", (req: Request, res: Response) => {
   // TODO: Check for sheet not found, in
   //       which case send the appropriate error status code
 
-  // TODO: Render the template with the sheet
-  //       data. This returns a promise, so you must use .then()
-  //       (or await) to access the actual HTML string. Once
-  //       the HTML is available, send it as the response.
+  // TODO: Render the template to an HTML-formatted 'string'
+  //       using 'viewSheet.ts'.
   //
   // const html = ...;
 
