@@ -23,9 +23,10 @@ function createServer(svc: SheetService) {
 
           // TODO: compose an `UPDATE_VALUES` message, using
           //       `patch` as the payload object
-          const message = []; // <- replace [] with your code
+          //const message = []; // <- replace [] with your code
 
-          sendMessage<ServerMessage>(message, source, ...peers);
+          // TODO: uncomment
+          // sendMessage<ServerMessage>(message, source, ...peers);
         }
         break;
       }

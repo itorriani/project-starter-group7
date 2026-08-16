@@ -78,7 +78,7 @@ export class InMemorySheetService implements SheetService {
 
     const rows: Value[][] = [];
 
-    return { rows, startRow, count: rows.length }
+    return { rows, start : startRow, count: rows.length }
   }
 
   updateSheetValues(
