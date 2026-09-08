@@ -1,2 +1,2 @@
 export * from "./interface.ts";
-export * from "./cached-in-memory.ts";
+export * from "./dag-in-memory.ts";

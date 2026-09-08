@@ -42,6 +42,8 @@ function viewColumnHeaders(columns: string[]): string {
   //
   // example input: columns=["A", "B", "C"]
   // output: "<th>A</th><th>B</th><th>C</th>"
+
+  return ""; // <- replace "" with your value
 }
 
 function viewColumnNumbers(columns: string[]): string {
@@ -51,11 +53,13 @@ function viewColumnNumbers(columns: string[]): string {
   //       inside the `<th>` should be the column number.
   //       (start with column 0 for the first column)
   //
- // example input: columns=["A", "B", "C"]
+  // example input: columns=["A", "B", "C"]
   // output: "<th>0</th><th>0</th><th>0</th>"
+
+  return ""; // <- replace ""
 }
 
-function viewRows(rows: Value[][]): string{
+function viewRows(rows: Value[][]): string {
   // TODO: Write a function which outputs a string
   //       containing a series of `<tr>` elements,
   //       one for each row of data in rows.
@@ -87,4 +91,5 @@ function viewRows(rows: Value[][]): string{
   //     <td><input value="93.5"></td>
   //   </tr>
 
+  return ""; // <- replace
 }

@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from "express";
 import { SheetService }  from "sheet-svc";
-import { Sparse, Value, parseKey } from "@poly-sheets/types";
+import { RCKey, Sparse, Value, parseKey } from "@poly-sheets/types";
 // TODO: [Assignment 6] add this import:
 //
 // import { ComputeService } from "compute-svc";
