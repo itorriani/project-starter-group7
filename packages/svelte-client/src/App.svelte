@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { newSheet } from "@poly-sheets/types";
+  import { newSheet, sparseKeyOf } from "@poly-sheets/types";
   import { wsHandleChange, wsSubscribeChanges } from "./ws-client.ts";
   import { type Connection } from "./websocket.ts";
   import Cell from "./Cell.svelte";
@@ -86,12 +86,27 @@
   //       should set `wsConnection` above; the second should
   //       modify the referenced cell in `sheet.cells`
 
+  // ======== Assignment 6 =========
+  //
+  // TODO: define a $state variable to toggle the formulas
+  //       on and off. The initial value should be false
+  //
+  // let showFormulas = ...
 
 </script>
 
 <main>
   <header>
     <h1>Poly-Sheets</h1>
+    <!--
+      ======= Assignment 6 =======
+
+      TODO: Add a labeled checkbox bound to the value of
+            `showFormulas`. Write an event handler so that
+            when a user changes the value, the `showFormulas`
+            variable is updated to the current state of the
+            checkbox.
+    -->
   </header>
   <section class="sheet">
     <table class="sticky">
@@ -119,6 +134,11 @@
 
         // TODO: [Assignment 4] if wsConnection is set, call `wshandleChange`
         //       instead of handleChange
+
+        // TODO: [Assignment 6] add a `class` attribute to the <tbody>
+        //       to control displaying formulas. Set class="hide-formulas"
+        //       if `showFormulas` is false, and class="show-formulas"
+        //       if `showFormulas` is true.
       }}>
         <!--
           TODO: [Assignment 2] Use nested {#each} blocks to
@@ -131,6 +151,13 @@
                 <Cell row={r} column={c}
                   value={sheet.cells[r][c]}
                   />
+
+          TODO: [Assignment 6] add a formula= property to the
+                Cell component instance, like this:
+
+                  formula={ sheet.formulas
+                    ? sheet.formulas[sparseKeyOf({row: r, column: c})]
+                    : "" }
         -->
       </tbody>
     </table>
@@ -210,6 +237,13 @@
         //       It's fine (and in fact preferable) if you
         //       mutate the cells array. As with the $effect you
         //      wrote above, be sure to convert the row data to Values.
+
+        // ======== Assignment 6 ========
+        //
+        // TODO: If the json includes `formulas`, merge them with
+        //       the Sparse<string> `sheet.formulas`. DO NOT create
+        //       a new object and assign that to sheet.formulas.
+        //       Hint: look up the Object.assign() JavaScript function.
       });
   }
 

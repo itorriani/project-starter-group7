@@ -1,14 +1,17 @@
 import { IntrinsicValue, Value } from "./value.ts";
+import { Sparse } from "./sparse.ts";
 
 export interface Sheet {
   name: string;
   columns: string[];
   nrows: number;
   cells: Value[][];
+  formulas?: Sparse<string>;
 }
 
 export interface MoreRows {
   rows: Value[][];
+  formulas?: Sparse<string>;
   start: number;
   count: number;
 }
@@ -21,7 +24,7 @@ export function newSheet(
     Array.from({ length: ncolumns }, () => new IntrinsicValue() )
   );
 
-  return {name, columns, nrows, cells };
+  return { name, columns, nrows, cells, formulas: {} };
 }
 
 export function defaultColumnName(i: number): string {

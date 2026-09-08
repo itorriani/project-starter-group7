@@ -5,6 +5,12 @@ import { Sheet, WithId, newSheet } from "@poly-sheets/types";
 // TODO: [Assignment 5] replace the following with
 //       SQLiteSheetService
 import { InMemorySheetService } from "sheet-svc";
+// TODO: [Assignment 6] Add `FormulaSheetService` to the
+//       above import from `sheet-svc`
+
+// TODO [Assignment 6] import `DAGComputeService` from
+//       `compute-svc`
+
 import { readCSV } from "./csv.ts";
 
 // TODO: [Assignment 2] add this import:
@@ -14,7 +20,7 @@ import { readCSV } from "./csv.ts";
 // TODO: [Assignment 4] add these imports:
 //
 //   import websockets from "./websockets.ts"
-//   import wsHandler from "./wsapi.ts";
+//   import wsServer from "./wsapi.ts";
 
 const port = process.env.PORT || 3000;
 const useSPA = !!process.env.STATIC;
@@ -26,6 +32,17 @@ const app = express();
 // TODO: [Assignment 5] replace the following with
 //       SQLiteSheetService
 const sheetService = new InMemorySheetService();
+
+// TODO: [Assignment 6] redefine `sheetService` above
+//       by using `new FormulaSheetService`. This class
+//       requires that you pass the SQLiteSheetService
+//       to its constructor.
+
+// TODO: [Assignment 6] define `computeService` by using
+//       `new DAGComputeService`, and passing it
+//       the `sheetService` (above) to the constructor
+//
+// const computeService = ...
 
 app.use(express.static(
   staticDir,
@@ -127,4 +144,4 @@ app.listen(port, () => {
 
 // TODO: [Assignment 4] Enable websockets on the HTTP server
 //    by calling `websockets`, passing it `server` (defined
-//    above) and the `wsHandler` function.
+//    above) and the `wsServer` function.

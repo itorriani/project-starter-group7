@@ -91,6 +91,14 @@ function wsHandleMessage(msg: ServerMessage, onChange: OnChangeHandler ) {
 
       break;
     }
+    case "UPDATE_FORMULAS": {
+      // ======== Assignment 6 ========
+      //
+      // TODO: For each key in patch, call onChange with
+      //       a reference and the formula.
+
+      break;
+    }
     default:
       console.log("Invalid message type:", msg[0]);
   }

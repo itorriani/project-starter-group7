@@ -1,8 +1,17 @@
 import { ClientMessage, SerializedValue, ServerMessage, Sparse, Value } from "@poly-sheets/types";
 import { Connection, sendMessage } from "./websockets.ts";
 import { SheetService } from "sheet-svc";
+// TODO: [Assignment 6] Add this import:
+//
+// import { ComputeService } from "compute-svc";
 
-function createServer(svc: SheetService) {
+function createServer(
+  svc: SheetService
+
+  // ======== Assignment 6 ========
+  // TODO: add a second parameter of type ComputeService
+
+) {
 
   const subscribedRows: WeakMap<Connection, number> = new WeakMap();
 
@@ -13,12 +22,32 @@ function createServer(svc: SheetService) {
       case "PATCH_CELL_DATA": {
         const patch = fromSerializedValues(msg[1]);
 
-        // TODO: call the `patch` function in `sheetSvc`
+        // ======== Assignment 4 ========
+
+        // TODO: call the `updateSheetValues` function in `sheetSvc`
         //       and save the result as `success`
         //
         const success = false; // <-- replace with your code
 
         if (success) {
+          // ======== Assignment 6 ========
+
+          // TODO: Apply the same changes you made to the PATCH
+          //       endpoint in api.ts here. That is:
+          //
+          //    1. Check whether `success` is an object with `values`
+          //       and `formulas`.
+          //    2. Call the ComputeService's `updateValues`
+          //       with the values
+          //    3. Call the ComupteService's `updateFormulas`
+          //       with the formulas
+          //    4. Merge all the changed values into one Sparse<Value>
+
+          // TODO: If the patch included any formulas compose
+          //       an `UPDATE_FORMULAS` message and send it.
+
+          // ======== Assignment 4 ========
+
           const patch = toSerializedValues(success);
 
           // TODO: compose an `UPDATE_VALUES` message, using

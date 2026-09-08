@@ -6,4 +6,5 @@ export type ClientMessage =
   | ["SUBSCRIBE_ROWS", number ]
 
 export type ServerMessage =
-  ["UPDATE_VALUES", Sparse<SerializedValue>]
+  | ["UPDATE_VALUES", Sparse<SerializedValue>]
+  | ["UPDATE_FORMULAS", Sparse<string>]

@@ -89,6 +89,15 @@ const countColumns = db.prepare<
   --       count of the number of columns in a sheet
 `);
 
+const selectOneValue = db.prepare<
+  [id: string, row: number, column: number],
+  { strval: string | null, numval: number | null }
+  >(`
+  -- TODO: write a SELECT statement that
+  -- gets the strval and numval for the
+  -- cell at row, number in the sheet
+  `);
+
 const selectValues = db.prepare<
   [id: string, start: number, end: number],
   {
@@ -218,6 +227,27 @@ export class SQLiteSheetService implements SheetService {
     })
 
     return { rows, start: startRow, count: end - startRow }
+  }
+
+  // Get one value from a sheet
+  getCellValue(
+    id: string,
+    ref: AbsoluteReference
+  ): Value | undefined {
+    const { row, column } = ref;
+
+    // TODO: use the `selectOneValue` prepared statement
+    //       to get the strval and numval of the cell
+    //
+    const value =
+      { strval: null, numval: null };  // <- replace with your code
+
+    if (typeof value === "undefined") return value;
+    const { strval, numval } = value;
+    return new IntrinsicValue(
+      typeof strval === "string" ? strval :
+        typeof numval === "number" ? numval : null
+    );
   }
 
   // Modify values in sheet, as indicated in the `patch`

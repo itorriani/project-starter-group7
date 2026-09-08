@@ -1,4 +1,5 @@
 import {
+  AbsoluteReference,
   MoreRows,
   Sheet,
   Sparse,
@@ -26,9 +27,15 @@ export interface SheetService {
     maxRows?: number
   ): MoreRows | undefined;
 
+  // Return a single cell's value
+  getCellValue(
+    id: string,
+    ref: AbsoluteReference
+  ): Value | undefined;
+
   // Modify values in sheet, as indicated in the `patch`
   updateSheetValues(
     id: string,
     patch: Sparse<Value>
-  ): Sparse<Value> | undefined;
+  ): Sparse<Value> | { values: Sparse<Value>, formulas: Sparse<string> } | undefined;
 }

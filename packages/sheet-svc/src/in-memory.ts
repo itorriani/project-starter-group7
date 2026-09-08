@@ -28,7 +28,8 @@ export class InMemorySheetService implements SheetService {
     // TODO: add the `stored` object to the `storedSheets`
     //       map with key `id`. Then return `stored`
 
-    return stored;
+    // TODO: remove the following line when done:
+    return { ...newSheet(10, 10), id: "not a sheet" };
   }
 
   getSheetById(
@@ -79,6 +80,21 @@ export class InMemorySheetService implements SheetService {
     const rows: Value[][] = [];
 
     return { rows, start : startRow, count: rows.length }
+  }
+
+  getCellValue(
+     id: string,
+     ref: AbsoluteReference
+   ): Value | undefined {
+     const sheet = this.storedSheets[id];
+     const { row, column } = ref;
+
+     if (!sheet ||
+       sheet.cells.length <= row ||
+       sheet.cells[row].length <= column)
+       return undefined;
+
+     return sheet.cells[row][column];
   }
 
   updateSheetValues(

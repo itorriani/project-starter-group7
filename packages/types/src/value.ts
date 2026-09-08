@@ -7,9 +7,16 @@ export abstract class Value {
   isEmpty(): boolean { return true; }
   isNumber(): boolean { return false; }
 
+  isEqual(that: Value): boolean {
+    if (this instanceof IntrinsicValue && that instanceof IntrinsicValue) {
+      return this.toJSON() === that.toJSON();
+    } else {
+      return false;
+    }
+  }
+
   static fromJSON(
     json: SerializedValue
-
   ): Value {
     if (typeof json === "object" && json !== null) {
       if ("error" in json)
@@ -72,7 +79,7 @@ export class ErrorValue extends Value {
 export class PendingValue extends Value {
   placeholder: IntrinsicValue;
 
-  constructor(p: Value) {
+  constructor(p?: Value) {
     super();
     if (p instanceof PendingValue)
       this.placeholder = p.placeholder;
