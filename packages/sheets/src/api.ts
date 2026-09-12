@@ -10,7 +10,7 @@ function createRouter(
 
   // TODO: [Assignment 6] add a second parameter to createRouter(),
   //       of type ComputeService
-) {
+) : Router {
 
 
   const router = Router();

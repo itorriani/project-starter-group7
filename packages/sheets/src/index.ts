@@ -50,7 +50,7 @@ app.use(express.static(
 ));
 app.use(express.urlencoded()); // for parsing application/x-www-form-urlencoded
 
-// TODO: [Assignment 2] create a router by calling apiRouter.
+// TODO: [Assignment 2] create a router by calling createRouter.
 //
 // const router = ...;
 
