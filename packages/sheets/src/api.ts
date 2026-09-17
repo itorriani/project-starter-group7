@@ -26,14 +26,21 @@ function createRouter(
       // const id = ...
 
       // TODO: declare the variable `sheet`. This will contain
-      //       the data we will send back. Use `sheetSvc` to
+      //       the data we will send back. Use `svc` to
       //       find the value of `sheet`
       // const sheet = ...
 
       // TODO: check the value of `sheet` to determine whether
       //       the `sheetSvc` found the data or not. If
-      //       data was found, send it back to the client.
-      //       Otherwise, send an appropriate HTTP status
+      //       data was found, send it back to the client
+      //       _as JSON_, not rendered as an HTML document
+      //       like in Assignment 1. You don't need to manually
+      //       convert 'sheet' to JSON; res.send(sheet) will do
+      //       this for you! 
+      //
+      //       If a sheet was not found associated with 'id',
+      //       then send back an explanatory error message along
+      //       with an appropriate HTTP return code.
 
       // ======== Assignment 3 ========
 
