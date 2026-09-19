@@ -21,6 +21,7 @@ function viewTable(sheet: Sheet): string {
         <tr>
           <th></th>
           ${viewColumnNumbers(sheet.columns)}
+        </tr>
         <tr>
           <th></th>
           ${viewColumnHeaders(sheet.columns)}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { newSheet, sparseKeyOf } from "@poly-sheets/types";
+  import { newSheet, sparseKeyOf, Value } from "@poly-sheets/types";
   import { wsHandleChange, wsSubscribeChanges } from "./ws-client.ts";
   import { type Connection } from "./websocket.ts";
   import Cell from "./Cell.svelte";
@@ -20,7 +20,7 @@
   // path: /app/:id  --> ["", "app", "#######-####-..."]
   const path = location.pathname.split("/");
 
-  // TODO: Declare a variable `sheetId`. Initialize it using
+  // TODO: [Assignment 2] Declare a variable `sheetId`. Initialize it using
   //       the $state() rune, and giving it the value of
   //       `id` from the URL path
   //
@@ -42,8 +42,11 @@
     // fetch(url)
     //   .then((res: Response) => {
 
-    // TODO: Check the status and if it's good, return
-    //       the body `res.json()`.
+    // TODO: Check the status and if it's good (see 'ok'), return
+    //       the body `res.json()`. If the status isn't
+    //       good, throw an Error with a message saying
+    //       that such-and-such-ID sheet failed to be fetched,
+    //       along with the bad HTTP return status.
 
     //   })
     //   .then((json: unknown) => {
@@ -65,8 +68,7 @@
     //   })
     //   .catch((err: Error) => {
     //      error = err.message;
-    //    });)
-    //   ...
+    //    });
 
     // ======== Assignment 3 ========
     //
@@ -99,9 +101,7 @@
   <header>
     <h1>Poly-Sheets</h1>
     <!--
-      ======= Assignment 6 =======
-
-      TODO: Add a labeled checkbox bound to the value of
+      TODO: [ Assignment 6 ] Add a labeled checkbox bound to the value of
             `showFormulas`. Write an event handler so that
             when a user changes the value, the `showFormulas`
             variable is updated to the current state of the
@@ -114,7 +114,7 @@
         <tr>
           <th></th>
           <!--
-            TODO: Use a Svelte {#each} block to generate
+            TODO: [Assignment 2] Use a Svelte {#each} block to generate
                   a <th> for every column. Put the column's
                   *number* inside the <th>.
            -->
@@ -122,7 +122,7 @@
         <tr>
           <th></th>
           <!--
-            TODO: Use a Svelte {#each} block to generate
+            TODO: [Assignment 2] Use a Svelte {#each} block to generate
                   a <th> for every column. Put the column's
                   *name* inside the <th>.
            -->

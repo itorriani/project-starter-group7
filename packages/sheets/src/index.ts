@@ -15,7 +15,7 @@ import { readCSV } from "./csv.ts";
 
 // TODO: [Assignment 2] add this import:
 //
-//   import apiRouter from "./api.ts"
+//   import createRouter from "./api.ts"
 
 // TODO: [Assignment 4] add these imports:
 //
@@ -50,12 +50,14 @@ app.use(express.static(
 ));
 app.use(express.urlencoded()); // for parsing application/x-www-form-urlencoded
 
-// TODO: [Assignment 2] create a router by calling apiRouter.
+// TODO: [Assignment 2] create a router by calling createRouter.
 //
 // const router = ...;
 
-// TODO: [Assignment 2] Then, have `app` use `router` tos handle
-//       all requests which begin with `/api`
+// TODO: [Assignment 2] Have `app` use `router` to handle
+//       all requests which begin with `/api`. Note that 
+//       this cause the later "app.get("/app/:id..." call
+//       from Assignment 1 to have no effect.
 //
 // app.use( /*   */ );
 

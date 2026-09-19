@@ -10,7 +10,7 @@ function createRouter(
 
   // TODO: [Assignment 6] add a second parameter to createRouter(),
   //       of type ComputeService
-) {
+) : Router {
 
 
   const router = Router();
@@ -18,20 +18,29 @@ function createRouter(
     router.use(express.json({ type: ['application/*+json', 'application/json'] }));
 
     router.get("/sheets/:id", (req: Request, res: Response) => {
+      // ======== Assignment 2 ========
+
       // TODO: declare the variable `id`. Initialize it to the
       //       string which occurred in place of `:id` in the URL.
       //
       // const id = ...
 
       // TODO: declare the variable `sheet`. This will contain
-      //       the data we will send back. Use `sheetSvc` to
+      //       the data we will send back. Use `svc` to
       //       find the value of `sheet`
       // const sheet = ...
 
       // TODO: check the value of `sheet` to determine whether
       //       the `sheetSvc` found the data or not. If
-      //       data was found, send it back to the client.
-      //       Otherwise, send an appropriate HTTP status
+      //       data was found, send it back to the client
+      //       _as JSON_, not rendered as an HTML document
+      //       like in Assignment 1. You don't need to manually
+      //       convert 'sheet' to JSON; res.send(sheet) will do
+      //       this for you! 
+      //
+      //       If a sheet was not found associated with 'id',
+      //       then send back an explanatory error message along
+      //       with an appropriate HTTP return code.
 
       // ======== Assignment 3 ========
 
