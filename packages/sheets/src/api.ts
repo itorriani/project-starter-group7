@@ -77,7 +77,7 @@ function createRouter(
       // const { limit, start } = ...
 
       // TODO: Define `moreRows` as the result of calling
-      //       the `getRows` sheet service function with
+      //       the `getCellsInRange` sheet service function with
       //       the values of `id`, `start`, and `limit`.
       //       Hint: use parseInt to convert strings to numbers
       //
@@ -98,6 +98,8 @@ function createRouter(
     });
 
     router.patch("/sheets/:id/cells", (req: Request, res: Response) => {
+      // ======== Assignment 3 ========
+
       // TODO: Get the `id` parameter from the Request
       //
       // const id = ...

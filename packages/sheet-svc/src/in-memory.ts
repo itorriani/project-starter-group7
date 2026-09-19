@@ -47,9 +47,9 @@ export class InMemorySheetService implements SheetService {
 
 
     // TODO: Implement the following logic:
-    //    1. if the sheet was not found or `limit` is undefined,
+    //    1. if the sheet was not found or `maxRows` is undefined,
     //       return fullSheet. (This replicates the previous behavior.)
-    //    2. create a new array containing only the first `limit` rows
+    //    2. create a new array containing only the first `maxRows` rows
     //       from `fullSheet.cells`. (Hint: look up Array.slice())
     //    3. return the `fullSheet`, but replace the `cells` field with
     //       the shorter array. Leave all other fields (including `nrows`)
