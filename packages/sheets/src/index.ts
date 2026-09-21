@@ -20,7 +20,7 @@ import { readCSV } from "./csv.ts";
 // TODO: [Assignment 4] add these imports:
 //
 //   import websockets from "./websockets.ts"
-//   import wsServer from "./wsapi.ts";
+//   import wsServer from "./ws-server.ts";
 
 const port = process.env.PORT || 3000;
 const useSPA = !!process.env.STATIC;
