@@ -149,5 +149,5 @@ on all this computer's IP addresses, i.e., on 0.0.0.0. \
 });
 
 // TODO: [Assignment 4] Enable websockets on the HTTP server
-//    by calling `websockets`, passing it `server` (defined
-//    above) and the `wsServer` function.
+//    by calling `websockets` with two inputs: (1) `server` (defined
+//    above) and (2) the result of calling `wsServer` on 'sheetService'.

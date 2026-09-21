@@ -57,9 +57,9 @@ export function wsSubscribeChanges(
         (msg: ServerMessage) => wsHandleMessage(msg, onChange)
       ).then((conn) => {
         // TODO: use the `sendMessage` function (imported above)
-        //       to send the `message` on the connection `ws
+        //       to send the `message` on the connection `conn
 
-        // TODO: invoke the callback function `setConnection`
+        // TODO: invoke the callback function `onConnect`
         //       so that the connection gets saved in App.svelte
       });
     } else {
