@@ -19,8 +19,8 @@ export interface SheetService {
     maxRows?: number
   ): Sheet | undefined;
 
-  // Return rows of data, starting at `startRow`, and
-  // including at last `maxRows`
+  // Return rows of data, starting at `startRow` (default to 0), and
+  // including at least `maxRows` (default to reading all the way to end).
   getCellsInRange(
     id: string,
     startRow?: number,

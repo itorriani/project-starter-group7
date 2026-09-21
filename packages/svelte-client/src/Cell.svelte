@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type Value } from "@poly-sheets/types";
+  import { type Value, sparseKeyOf } from "@poly-sheets/types";
 
   interface Props {
     row: number;
@@ -12,9 +12,10 @@
   let className = $derived(
     value.isUnstable() ? "pending" :
       value.isError() ? "error" :
-        value.isEmpty() ? "empty" : typeof value
+        value.isEmpty() ? "empty" :
+        typeof value.toJSON()
   );
-  let inputName = $derived(`R$${row}C$${column}`);
+  let inputName = $derived(sparseKeyOf({row, column}));
   let maybePending = $derived(
     value.isUnstable() ? "pending" : ""
   );
@@ -33,29 +34,3 @@
     />
   {/if }
 </td>
-
-<style>
-  td {
-    font-family: 'Courier New', Courier, monospace;
-    vertical-align: baseline;
-    line-height: 1em;
-
-    &.number {
-      text-align: right;
-    }
-
-    > input {
-      display: block;
-      text-align: inherit;
-      border: none;
-      background: none;
-      font-size: inherit;
-      font-family: inherit;
-      margin: .25em;
-    }
-
-    .pending {
-      opacity: 50%;
-    }
-  }
-</style>

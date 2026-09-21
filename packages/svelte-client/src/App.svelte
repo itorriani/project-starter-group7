@@ -169,7 +169,7 @@
     <span>{ sheet.name }</span>
     <!-- ======== Assignment 3 ========
 
-      TODO: Add a <span> here, containing either
+      TODO: Add a second <span> here, containing either
 
       {rowsLoaded}/{totalRows} rows loaded
           OR
