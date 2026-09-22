@@ -142,9 +142,7 @@ app.get("/app/:id", (req: Request, res: Response) => {
 
 app.listen(port, () => {
   const showServerLocMsg : string = 
-  `Server listening for HTTP requests at port number ${port} \
-on all this computer's IP addresses, i.e., on 0.0.0.0. \
-(0.0.0.0 includes 127.0.0.1, aka "localhost").`
+  `Server listening at port ${port} at IPv4 0.0.0.0`;
   console.log( showServerLocMsg );  
 });
 
