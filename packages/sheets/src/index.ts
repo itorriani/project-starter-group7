@@ -12,6 +12,7 @@ import { InMemorySheetService } from "sheet-svc";
 //       `compute-svc`
 
 import { readCSV } from "./csv.ts";
+import { viewSheet } from "./viewSheet.ts";
 
 // TODO: [Assignment 2] add this import:
 //
@@ -85,23 +86,21 @@ app.post("/app", (req: Request, res: Response) => {
 
     const sheet = newSheet(columns, rows, name);
 
-    // TODO: [Assignment 1] save the sheet in the sheetService
-    //       and pass then result to redirectToSheet
-    //
-    // const stored = ...;
-    // redirectToSheet(stored);
+    const stored = sheetService.addSheet(sheet);
+    redirectToSheet(stored);
 
   } else {
     readCSV(template as string, templateDir)
       .then((sheet) => {
-        // TODO: [Assignment 1] save the sheet and redirect,
-        //       as you did above
+        const stored = sheetService.addSheet(sheet);
+        redirectToSheet(stored);
       })
       .catch((err: Error) => {
         // TODO: [Assignment 1] an error occurred. Respond
         //       with an HTTP error status. You may assume
         //       the only possible error is that the file
         //       was not found.
+        res.status(404).send(`Error: file not found`);
       });
   }
 
@@ -116,22 +115,18 @@ app.get("/app/:id", (req: Request, res: Response) => {
   //       string which occurred in place of `:id` in the URL.
   //
   // const id = ...
+  const id = req.params.id;
 
   // TODO: Using `id`, get the corresponding sheet from the
   //       sheetService
   //
-  const sheet = undefined; // <- replace with your code
-
-  // TODO: Check for sheet not found, in
-  //       which case send the appropriate error status code
-
-  // TODO: Render the template to an HTML-formatted 'string'
-  //       using 'viewSheet.ts'.
-  //
-  // const html = ...;
-
-  // TODO: send the html string as the HTTP response
-
+  const sheet = sheetService.getSheetById(id);
+  if (sheet === undefined){
+    res.status(404).send("Error: Sheet not found")
+  }else{
+    const html = viewSheet(sheet);
+    res.status(200).send(html);
+  }
 });
 
 // Start the server

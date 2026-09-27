@@ -43,8 +43,8 @@ function viewColumnHeaders(columns: string[]): string {
   //
   // example input: columns=["A", "B", "C"]
   // output: "<th>A</th><th>B</th><th>C</th>"
-
-  return ""; // <- replace "" with your value
+  
+  return columns.map((value) => `<th>${escape(value)}</th>`).join(); 
 }
 
 function viewColumnNumbers(columns: string[]): string {
@@ -57,7 +57,7 @@ function viewColumnNumbers(columns: string[]): string {
   // example input: columns=["A", "B", "C"]
   // output: "<th>0</th><th>0</th><th>0</th>"
 
-  return ""; // <- replace ""
+  return columns.map((_, index) => `<th>${index}</th>`).join(); // <- replace ""
 }
 
 function viewRows(rows: Value[][]): string {
@@ -91,6 +91,9 @@ function viewRows(rows: Value[][]): string {
   //     <td><input value="89.5"></td>
   //     <td><input value="93.5"></td>
   //   </tr>
+    
 
-  return ""; // <- replace
+  return rows.map((row, index) =>
+      `<tr><th>${index}</th>${row.map((value) => `<td><input value=${escape(value)}></td>`).join()}</tr>`
+    ).join(); // <- replace
 }
