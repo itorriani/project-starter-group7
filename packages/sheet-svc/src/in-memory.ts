@@ -20,17 +20,12 @@ export class InMemorySheetService implements SheetService {
     sheet: Sheet
   ): WithId<Sheet> {
     const id = uuidv4();
-    // TODO: declare a variable `stored`. Initialize it
-    //       to a new object which contains all properties
-    //       from `sheet`, plus an additional `id`
-    //
-    // const stored: WithId<Sheet> = { ... };
 
-    // TODO: add the `stored` object to the `storedSheets`
-    //       map with key `id`. Then return `stored`
+    const stored: WithId<Sheet> = { ...sheet, id }; //create a copy of the sheet with the generate did
 
-    // TODO: remove the following line when done:
-    return { ...newSheet(10, 10), id: "not a sheet" };
+    this.storedSheets[id] = stored; //store it in the data structure for later access 
+
+    return stored; // return the object
   }
 
   getSheetById(
@@ -39,9 +34,9 @@ export class InMemorySheetService implements SheetService {
   ): Sheet | undefined {
     // TODO: [Assignment 1] get the sheet from storedSheets
     //
-    const fullSheet = undefined; // <- replace w/ your code
+    const retrievedSheet = this.storedSheets[id]; //accesss the sheet given id
 
-    return fullSheet;
+    return retrievedSheet; //return it
 
     // ======== Assignment 3 =========
 
