@@ -94,6 +94,6 @@ function viewRows(rows: Value[][]): string {
     
 
   return rows.map((row, index) =>
-      `<tr><th>${index}</th>${row.map((value) => `<td><input value=${escape(value)}></td>`).join()}</tr>`
+      `<tr><th>${index}</th>${row.map((value) => `<td><input value=${escape(value.toString())}></td>`).join()}</tr>`
     ).join(); // <- replace
 }

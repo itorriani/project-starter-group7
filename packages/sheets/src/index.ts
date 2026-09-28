@@ -115,7 +115,7 @@ app.get("/app/:id", (req: Request, res: Response) => {
   //       string which occurred in place of `:id` in the URL.
   //
   // const id = ...
-  const id = req.params.id;
+  const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
 
   // TODO: Using `id`, get the corresponding sheet from the
   //       sheetService
