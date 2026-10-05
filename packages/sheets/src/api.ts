@@ -25,12 +25,12 @@ function createRouter(
       }
       const sheet = svc.getSheetById(id);
 
-      
+
       if(sheet){
         return res.send(sheet);
       }
       else{
-        return res.status(404).send({ error: "Sheet ${id} not found." });
+        return res.status(404).send({ error: `Sheet ${id} not found.`});
       }
 
       // ======== Assignment 3 ========
