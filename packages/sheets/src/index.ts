@@ -19,7 +19,7 @@ import { viewSheet } from "./viewSheet.ts";
 //
 //   import websockets from "./websockets.ts"
 //   import wsServer from "./ws-server.ts";
-
+  
 const port = process.env.PORT || 3000;
 const useSPA = !!process.env.STATIC;
 const publicDir = path.resolve("public");
@@ -50,6 +50,7 @@ app.use(express.urlencoded()); // for parsing application/x-www-form-urlencoded
 
 // TODO: [Assignment 2] create a router by calling createRouter.
 //
+
 const router = newRouter(sheetService);
 
 // TODO: [Assignment 2] Have `app` use `router` to handle
@@ -67,8 +68,7 @@ if (useSPA) {
 
   // Send index.html in STATIC directory for any route starting with /app
   app.get(/\/app(.*)/, (req: Request, res: Response) => {
-    // TODO: [Assignment 2] Complete this endpoint, following the
-    //       example above, except use `staticDir` in place of `publicDir`
+    res.sendFile("index.html", { root: staticDir });
   });
 }
 
