@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import path from "node:path";
 import fs from "node:fs/promises";
 import { Sheet, WithId, newSheet } from "@poly-sheets/types";
+import newRouter from "./api.ts"
 // TODO: [Assignment 5] replace the following with
 //       SQLiteSheetService
 import { InMemorySheetService } from "sheet-svc";
@@ -13,10 +14,6 @@ import { InMemorySheetService } from "sheet-svc";
 
 import { readCSV } from "./csv.ts";
 import { viewSheet } from "./viewSheet.ts";
-
-// TODO: [Assignment 2] add this import:
-//
-//   import createRouter from "./api.ts"
 
 // TODO: [Assignment 4] add these imports:
 //
@@ -53,14 +50,14 @@ app.use(express.urlencoded()); // for parsing application/x-www-form-urlencoded
 
 // TODO: [Assignment 2] create a router by calling createRouter.
 //
-// const router = ...;
+const router = newRouter(sheetService);
 
 // TODO: [Assignment 2] Have `app` use `router` to handle
 //       all requests which begin with `/api`. Note that 
 //       this cause the later "app.get("/app/:id..." call
 //       from Assignment 1 to have no effect.
 //
-// app.use( /*   */ );
+app.use( "/api", router);
 
 if (useSPA) {
   // Explicitly send public/index.html for /, regardless of STATIC value
@@ -110,16 +107,7 @@ app.post("/app", (req: Request, res: Response) => {
 });
 
 app.get("/app/:id", (req: Request, res: Response) => {
-  //        ==== Assignment 1 ===
-  // TODO: Declare the variable `id`. Initialize it to the
-  //       string which occurred in place of `:id` in the URL.
-  //
-  // const id = ...
   const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
-
-  // TODO: Using `id`, get the corresponding sheet from the
-  //       sheetService
-  //
   const sheet = sheetService.getSheetById(id);
   if (sheet === undefined){
     res.status(404).send("Error: Sheet not found")
