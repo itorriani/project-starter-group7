@@ -18,29 +18,20 @@ function createRouter(
     router.use(express.json({ type: ['application/*+json', 'application/json'] }));
 
     router.get("/sheets/:id", (req: Request, res: Response) => {
-      // ======== Assignment 2 ========
 
-      // TODO: declare the variable `id`. Initialize it to the
-      //       string which occurred in place of `:id` in the URL.
-      //
-      // const id = ...
+      const id = req.params.id;
+      if (typeof id !== "string") {
+        return res.status(400).json({ error: "Invalid sheet ID format." });
+      }
+      const sheet = svc.getSheetById(id);
 
-      // TODO: declare the variable `sheet`. This will contain
-      //       the data we will send back. Use `svc` to
-      //       find the value of `sheet`
-      // const sheet = ...
-
-      // TODO: check the value of `sheet` to determine whether
-      //       the `sheetSvc` found the data or not. If
-      //       data was found, send it back to the client
-      //       _as JSON_, not rendered as an HTML document
-      //       like in Assignment 1. You don't need to manually
-      //       convert 'sheet' to JSON; res.send(sheet) will do
-      //       this for you! 
-      //
-      //       If a sheet was not found associated with 'id',
-      //       then send back an explanatory error message along
-      //       with an appropriate HTTP return code.
+      
+      if(sheet){
+        return res.send(sheet);
+      }
+      else{
+        return res.status(404).send({ error: "Sheet ${id} not found." });
+      }
 
       // ======== Assignment 3 ========
 
