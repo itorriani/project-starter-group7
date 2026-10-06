@@ -67,8 +67,8 @@ if (useSPA) {
 
   // Send index.html in STATIC directory for any route starting with /app
   app.get(/\/app(.*)/, (req: Request, res: Response) => {
-    // TODO: [Assignment 2] Complete this endpoint, following the
-    //       example above, except use `staticDir` in place of `publicDir`
+        res.sendFile("index.html", {root: staticDir});
+
   });
 }
 

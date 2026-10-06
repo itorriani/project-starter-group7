@@ -20,55 +20,29 @@
   // path: /app/:id  --> ["", "app", "#######-####-..."]
   const path = location.pathname.split("/");
 
-  // TODO: [Assignment 2] Declare a variable `sheetId`. Initialize it using
-  //       the $state() rune, and giving it the value of
-  //       `id` from the URL path
-  //
-  // let sheetId = ...
+  let sheetId = $state(path[2]);
 
   $effect(() => {
-    // TODO: Use the value of `sheetId` to construct a
-    //       the endpoint URL: /api/sheets/<id>. No
-    //       protocol or hostname required because
-    //       it's the same server we got this page from.
-    //
-    // const url = ...
-    //
-    // TODO: Use fetch() to make the request. That
-    //       returns a Promise<Response> so you will
-    //       need to use .then() (or await) to access
-    //       the Response object.
-    //
-    // fetch(url)
-    //   .then((res: Response) => {
 
-    // TODO: Check the status and if it's good (see 'ok'), return
-    //       the body `res.json()`. If the status isn't
-    //       good, throw an Error with a message saying
-    //       that such-and-such-ID sheet failed to be fetched,
-    //       along with the bad HTTP return status.
+    const url = `api/sheets/${sheetId}`;
 
-    //   })
-    //   .then((json: unknown) => {
+    fetch(url)
+      .then((res: Response) => {
+        if (res.ok){
+          res.json()
+        } else {
+          res.status(400).send(`Sheet with id ${sheetId} cannot be found`);
+        }
+      })
+      .then((json: unknown) => {
+        const { cells } = json as { cells: SerializedValue[][] };
+        const cellValues = convertCellValues(cells);
 
-    // TODO: Construct a Sheet from the JSON body.  Because
-    //       class instances cannot be transferred over JSON,
-    //       you need to convert all the cell data into Value
-    //       objects. You may use the function `convertCellValues`
-    //       (defined in the <script> below)
-    //
-    //     const { cells } = json as { cells: SerializedValue[][] };
-    //     const cellValues = convertCellValues(cells);
-
-    // TODO: Create a new sheet from `json`, replacing `cells`
-    //       with `cellValues`. Assign the replace
-    //       to the $state variable `sheet`
-    //
-    //     sheet = ... // new sheet with converted cells
-    //   })
-    //   .catch((err: Error) => {
-    //      error = err.message;
-    //    });
+        sheet = cellValues;
+      })
+      .catch((err: Error) => {
+        error = err.message;
+      });
 
     // ======== Assignment 3 ========
     //
@@ -113,19 +87,15 @@
       <thead>
         <tr>
           <th></th>
-          <!--
-            TODO: [Assignment 2] Use a Svelte {#each} block to generate
-                  a <th> for every column. Put the column's
-                  *number* inside the <th>.
-           -->
+          {#each sheet.columns as val, num}
+            <th>{num}</th>
+          {/each}
         </tr>
         <tr>
           <th></th>
-          <!--
-            TODO: [Assignment 2] Use a Svelte {#each} block to generate
-                  a <th> for every column. Put the column's
-                  *name* inside the <th>.
-           -->
+          {#each sheet.columns as col}
+            <th> {escape(col)}</th>
+          {/each}
         </tr>
       </thead>
       <tbody onchange={ (event: Event) => {
@@ -140,17 +110,15 @@
         //       if `showFormulas` is false, and class="show-formulas"
         //       if `showFormulas` is true.
       }}>
+        {#each sheet as row, i}
+        <tr>
+          <th>{i}</th>
+          {#each row as col}
+            <td>{escape(col.toString())}</td>
+          {/each}
+        </tr>
+        {/each}
         <!--
-          TODO: [Assignment 2] Use nested {#each} blocks to
-                generates the rows of data. Start each row
-                with a <th> that contains the row number.
-
-                For each cell in a row, DO NOT generate a <td>.
-                Instead, call the Cell component like this:
-
-                <Cell row={r} column={c}
-                  value={sheet.cells[r][c]}
-                  />
 
           TODO: [Assignment 6] add a formula= property to the
                 Cell component instance, like this:

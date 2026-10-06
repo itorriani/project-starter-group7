@@ -1,0 +1,28 @@
+{
+  "name": "poly-sheets",
+  "version": "1.0.0",
+  "description": "Team Project for CSC3001",
+  "keywords": [
+    "spreadsheet",
+    "collaborative",
+    "distributed"
+  ],
+  "license": "BSD-3-Clause",
+  "author": "kubiak@calpoly.edu",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start:standalone": "npm run -w sheets build && npm run -w sheets start",
+    "start:sheets": "npm run -w sheets build && npm run -w sheets start:web",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "source-map-support": "^0.5.21",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
