@@ -24,21 +24,24 @@
 
   $effect(() => {
 
-    const url = `api/sheets/${sheetId}`;
+    const url = `/api/sheets/${sheetId}`;
 
     fetch(url)
       .then((res: Response) => {
-        if (res.ok){
-          res.json()
-        } else {
-          res.status(400).send(`Sheet with id ${sheetId} cannot be found`);
+        if (!res.ok){
+          throw new Error(`Sheet with id ${sheetId} cannot be found (HTTP ${res.status})`)
         }
+        return res.json();
       })
       .then((json: unknown) => {
         const { cells } = json as { cells: SerializedValue[][] };
         const cellValues = convertCellValues(cells);
 
-        sheet = cellValues;
+        sheet = {
+          ...sheet,
+          cells: cellValues,
+        };
+
       })
       .catch((err: Error) => {
         error = err.message;
@@ -110,7 +113,7 @@
         //       if `showFormulas` is false, and class="show-formulas"
         //       if `showFormulas` is true.
       }}>
-        {#each sheet as row, i}
+        {#each sheet.cells as row, i}
         <tr>
           <th>{i}</th>
           {#each row as col}
