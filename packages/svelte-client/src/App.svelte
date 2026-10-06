@@ -97,7 +97,7 @@
         <tr>
           <th></th>
           {#each sheet.columns as col}
-            <th> {escape(col)}</th>
+            <th> {col.toString()}</th>
           {/each}
         </tr>
       </thead>
@@ -117,7 +117,7 @@
         <tr>
           <th>{i}</th>
           {#each row as col}
-            <td>{escape(col.toString())}</td>
+            <td>{col.toString()}</td>
           {/each}
         </tr>
         {/each}
