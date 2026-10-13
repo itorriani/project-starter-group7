@@ -14,8 +14,8 @@
   //       whenever the sheet data changes, you must
   //       wrap the expressions with the `$derived()` rune:
   //
-  // let rowsLoaded = $derived( /* code here  */ );
-  // let totalRows = $derived( /*  code here */ );
+  let rowsLoaded = $derived(sheet.cells.length);
+  let totalRows = $derived(sheet.nrows);
 
   // path: /app/:id  --> ["", "app", "#######-####-..."]
   const path = location.pathname.split("/");
@@ -24,7 +24,10 @@
 
   $effect(() => {
 
-    const url = `/api/sheets/${sheetId}`;
+    //const url = `/api/sheets/${sheetId}`;
+
+    //incorporate limit
+    const url = `/api/sheets/${sheetId}?limit=${ROW_CHUNK_SIZE}`;
 
     fetch(url)
       .then((res: Response) => {
@@ -34,13 +37,11 @@
         return res.json();
       })
       .then((json: unknown) => {
-        const { cells } = json as { cells: SerializedValue[][] };
+        const { cells, nrows, columns, name } = json as { cells: SerializedValue[][], nrows: number, columns: string[], name: string };
+
         const cellValues = convertCellValues(cells);
 
-        sheet = {
-          ...sheet,
-          cells: cellValues,
-        };
+          sheet = { ...sheet, name, columns, nrows, cells: cellValues };
 
       })
       .catch((err: Error) => {
@@ -137,27 +138,14 @@
     {/if}
   </section>
   <footer>
-    <span>{ sheet.name }</span>
-    <!-- ======== Assignment 3 ========
-
-      TODO: Add a second <span> here, containing either
-
-      {rowsLoaded}/{totalRows} rows loaded
-          OR
-      {totalRows} rows
-
-            depending on wheter all the rows have been
-            loaded or not. Hint: look at the Svelte
-            docs for  {#if } ... {:else} ... {/if}
-
-      TODO: Add a <button> inside the <span>. It
-            should only be displayed if there are
-            more rows waiting to be loaded. When
-            the button is clicked, call the
-            `loadMoreRows` function defined below
-
-            <button onclick={ /* event handler */ }>Load more</button>
-    -->
+    <span>{ sheet.name } </span>
+    <span>
+      {#if rowsLoaded < totalRows}
+        {rowsLoaded}/{totalRows} rows loaded
+      {:else}
+        {totalRows} rows
+      {/if}
+    </span>
   </footer>
 </main>
 
