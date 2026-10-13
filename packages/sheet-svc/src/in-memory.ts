@@ -36,7 +36,17 @@ export class InMemorySheetService implements SheetService {
     //
     const retrievedSheet = this.storedSheets[id]; //accesss the sheet given id
 
-    return retrievedSheet; //return it
+    //check if retrieved sheet doesn't exist or maxrows was not defined
+    if (!retrievedSheet || maxRows == undefined) {
+       return retrievedSheet } else
+       {
+          const limit = retrievedSheet.cells.slice(0,maxRows);
+          return { ...retrievedSheet, cells: limit };
+       }// 
+
+    return { ...retrievedSheet, cells: retrievedSheet.cells.slice(0, maxRows) };
+
+   // return retrievedSheet; //return it
 
     // ======== Assignment 3 =========
 
@@ -49,6 +59,8 @@ export class InMemorySheetService implements SheetService {
     //    3. return the `fullSheet`, but replace the `cells` field with
     //       the shorter array. Leave all other fields (including `nrows`)
     //       unchanged.
+
+
   }
 
   getCellsInRange(

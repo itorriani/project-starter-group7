@@ -22,8 +22,15 @@ function createRouter(
       const id = req.params.id;
       if (typeof id !== "string") {
         return res.status(400).json({ error: "Invalid sheet ID format." });
-      }
-      const sheet = svc.getSheetById(id);
+      } 
+
+      //read the limit part of the url if it exists 
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
+
+      //make a new call to getsheet with the limit
+      const sheet = svc.getSheetById(id, limit);
+
+      //const sheet = svc.getSheetById(id);
 
 
       if(sheet){
