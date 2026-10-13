@@ -142,6 +142,7 @@
     <span>
       {#if rowsLoaded < totalRows}
         {rowsLoaded}/{totalRows} rows loaded
+        <button onclick={() => loadMoreRows(sheetId, sheet, ROW_CHUNK_SIZE)}>Load More Rows</button> // button for more rows
       {:else}
         {totalRows} rows
       {/if}
@@ -174,35 +175,25 @@
     sheet: Sheet,
     maxRows: number
   ): Promise<MoreRows> {
-    // ======== Assignment 3 ========
 
-    // TODO: compute the path portion and query parameters
-    //       of the URL here, and replace the empty strings
-    //       below:
-
-    const path = ``;
-    const start = ``;
-    const limit = ``;
+    //seperate parts of the url that are relevant
+    const path = `sheets/${sheetId}/cells`;
+    const start = `start=${sheet.cells.length}`;
+    const limit = `limit=${maxRows}`;
 
     return fetch(`/api/${path}?${start}&${limit}`)
       .then((res: Response) => {
-        // TODO: check the response status. If it's not
-        //       correct, throw an Error. On success,
-        //       return the body as a JSON object
+        if (!res.ok) {
+          throw new Error(`Failed to load rows`);
+        }
+        return res.json();
       })
       .then((json: unknown) => {
-        const { rows, count } = json as {count: number, rows: SerializedValue[][]};
-        // TODO: add the rows to the end of the sheet's cells.
-        //       It's fine (and in fact preferable) if you
-        //       mutate the cells array. As with the $effect you
-        //      wrote above, be sure to convert the row data to Values.
-
-        // ======== Assignment 6 ========
-        //
-        // TODO: If the json includes `formulas`, merge them with
-        //       the Sparse<string> `sheet.formulas`. DO NOT create
-        //       a new object and assign that to sheet.formulas.
-        //       Hint: look up the Object.assign() JavaScript function.
+        const moreRows = json as { count: number, rows: SerializedValue[][] };
+        const newRows = convertCellValues(moreRows.rows);
+        for (const row of newRows) {
+          sheet.cells.push(row);
+        }
       });
   }
 

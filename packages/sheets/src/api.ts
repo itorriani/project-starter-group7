@@ -93,6 +93,22 @@ function createRouter(
     //       ComputeService to calculate the formulas, and then
     //       `updateCells()` to update moreRows.rows before
     //       sending it back to the client
+
+    const id = req.params.id as string;
+
+    const start = req.query.start ? parseInt(req.query.start as string) : 0;
+
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
+
+    const moreRows = svc.getCellsInRange(id, start, limit);
+
+    if (!moreRows) {
+      return res.status(404).send({ error: `Sheet ${id} not found.` });
+    }
+
+    return res.send(moreRows);
+
+
     });
 
     router.patch("/sheets/:id/cells", (req: Request, res: Response) => {

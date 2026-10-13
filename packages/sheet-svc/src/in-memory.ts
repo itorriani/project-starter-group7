@@ -44,8 +44,6 @@ export class InMemorySheetService implements SheetService {
           return { ...retrievedSheet, cells: limit };
        }// 
 
-    return { ...retrievedSheet, cells: retrievedSheet.cells.slice(0, maxRows) };
-
    // return retrievedSheet; //return it
 
     // ======== Assignment 3 =========
@@ -85,9 +83,24 @@ export class InMemorySheetService implements SheetService {
     //       rows. If `limit` is undefined, continue to
     //       the end of `sheet.cells`
 
-    const rows: Value[][] = [];
+    const sheet = this.storedSheets[id] // get the sheet with the corresponding id
 
-    return { rows, start : startRow, count: rows.length }
+    if (!sheet) { return undefined; } //check if it exists
+
+    let endRow;
+
+    //set range of rows based on if maxRows is specified
+    if (maxRows == undefined) 
+      { 
+        endRow = undefined
+      } else {
+        //calculate the rate based o the maxRow
+        endRow = startRow + maxRows
+      }
+
+    const rows = sheet.cells.slice(startRow, endRow);
+
+    return { rows, start: startRow, count: rows.length };
   }
 
   getCellValue(
